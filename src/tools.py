@@ -25,6 +25,19 @@ def _load_faults():
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def all_docs():
+    """返回全部文档（供检索词反查使用）：与检索/读取一样每次重读盘，替换 docs.json 即改变反查结果。"""
+    return _load_docs()
+
+
+def load_rewrite_terms():
+    """口语→制度用语改写表（data/terms.json，外置数据）：改表即改改写行为，代码不写死任何词表。"""
+    path = DATA_DIR / "terms.json"
+    if not path.exists():
+        return {"terms": []}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def search_docs(query):
     """关键词计分检索。返回 {ok, query, results:[{doc_id,title,version_date,score}]}。
 

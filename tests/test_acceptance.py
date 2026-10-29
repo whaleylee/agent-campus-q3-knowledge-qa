@@ -138,6 +138,18 @@ def test_case_06_tool_fail():
     assert obs2["ok"] is False and "读取文档失败" in obs2["error"]
 
 
+# ---------- 补充：步数上限（用例级触发，examples 里可查） ----------
+
+def test_case_07_max_steps_incomplete():
+    output, results = _run("case-07-max-steps")
+    entry = output["tasks"][0]
+    assert output["max_steps"] == 1
+    assert entry["run_status"] == "INCOMPLETE_MAX_STEPS"          # 明确的未完成状态
+    assert entry["status"] is None and entry["final"] is None     # 未完成时不得有结论
+    assert entry["steps_used"] == 1
+    assert results[0].trace[0]["action"] == "search_docs"         # 第一步耗尽预算即停
+
+
 # ---------- 红线：编造引用必须被 finish 校验器拦截 ----------
 
 def _lying_policy(messages):

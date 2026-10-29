@@ -1,0 +1,10 @@
+{
+  "case_id": "case-07-max-steps",
+  "acceptance": "补充：执行步数上限",
+  "description": "步数上限：用例声明 max_steps=1，第一步检索即耗尽预算，必须返回明确的未完成状态 INCOMPLETE_MAX_STEPS，不得虚报完成",
+  "reset_state": false,
+  "max_steps": 1,
+  "tasks": [
+    "入职满一年有多少天年假？"
+  ]
+}

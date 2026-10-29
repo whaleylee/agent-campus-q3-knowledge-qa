@@ -37,15 +37,16 @@ def run_case(case, llm_mode="mock", trace_dir=None):
     llm, mode = build_llm(llm_mode)
     toolset = kb_tools.build_tools()
     tasks = case.get("tasks", [])
+    max_steps = int(case.get("max_steps", MAX_STEPS))  # 用例可声明更小的上限以演示步数耗尽
     results = [run_agent(task, llm, toolset, prompts.SYSTEM_PROMPT,
-                         max_steps=MAX_STEPS, finish_validator=kb_tools.validate_citations,
+                         max_steps=max_steps, finish_validator=kb_tools.validate_citations,
                          llm_mode=mode)
                for task in tasks]
     output = {
         "case_id": case.get("case_id", "unknown"),
         "acceptance": case.get("acceptance", ""),
         "llm_mode": mode,
-        "max_steps": MAX_STEPS,
+        "max_steps": max_steps,
         "tasks": [{"task": task,
                    "run_status": r.status,
                    "status": (r.final or {}).get("status"),
@@ -57,7 +58,7 @@ def run_case(case, llm_mode="mock", trace_dir=None):
         out_dir = Path(trace_dir) / output["case_id"]
         out_dir.mkdir(parents=True, exist_ok=True)
         (out_dir / "output.json").write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
-        trace_payload = {"case_id": output["case_id"], "llm_mode": mode, "max_steps": MAX_STEPS,
+        trace_payload = {"case_id": output["case_id"], "llm_mode": mode, "max_steps": max_steps,
                          "traces": [r.trace for r in results]}
         (out_dir / "trace.json").write_text(json.dumps(trace_payload, ensure_ascii=False, indent=2), encoding="utf-8")
         parts = [f"# 用例 {output['case_id']}（验收点 {output['acceptance']}）", ""]

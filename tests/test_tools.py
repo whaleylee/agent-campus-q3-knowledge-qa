@@ -156,3 +156,82 @@ def test_swapped_data_changes_tool_results(tmp_path, monkeypatch):
     monkeypatch.setattr(tools, "DATA_DIR", tmp_path)
     assert [r["title"] for r in tools.search_docs("年假")["results"]] == ["员工年假管理制度（修订试行）"]
     assert "8 天年假" in tools.read_doc("D03")["excerpt"]
+
+
+# ---------- 决策逻辑的数据驱动性（mock_policy 层，防"背题"） ----------
+
+def _swap_kb(tmp_path, monkeypatch, docs, terms=None):
+    """把知识库与改写表整体换掉，验证决策逻辑只依赖数据、不依赖预设词表/句式。"""
+    (tmp_path / "docs.json").write_text(json.dumps({"docs": docs}, ensure_ascii=False), encoding="utf-8")
+    (tmp_path / "terms.json").write_text(json.dumps(terms or {"terms": []}, ensure_ascii=False), encoding="utf-8")
+    (tmp_path / "faults.json").write_text(
+        json.dumps({"search_fail_query_substrings": [], "read_fail_doc_ids": []}, ensure_ascii=False),
+        encoding="utf-8")
+    monkeypatch.setattr(tools, "DATA_DIR", tmp_path)
+
+
+def _mock_run(question):
+    import prompts  # noqa: F401  延迟导入避免与上层 sys.path 顺序耦合
+    from agent import run_agent
+    from llm import MockLLM
+    import mock_policy
+    return run_agent(question, MockLLM(mock_policy.decide), tools.build_tools(),
+                     prompts.SYSTEM_PROMPT, max_steps=8,
+                     finish_validator=tools.validate_citations, llm_mode="mock")
+
+
+def test_conflict_detection_survives_unit_wording_change(tmp_path, monkeypatch):
+    """冲突判定是归一化文本对比而非提取"N 天"数值：D02 改成"15 个工作日"仍必须判冲突并请确认。"""
+    docs = [
+        {"doc_id": "D01", "title": "费用报销管理制度", "version_date": "2025-01",
+         "keywords": ["报销", "报销期限"], "excerpt": "报销期限：30 天内提交报销申请。"},
+        {"doc_id": "D02", "title": "费用报销补充规定", "version_date": "2025-06",
+         "keywords": ["报销", "报销期限"], "excerpt": "报销期限：15 个工作日内提交报销申请。"},
+    ]
+    _swap_kb(tmp_path, monkeypatch, docs)
+    result = _mock_run("报销期限是多久？")
+    assert result.status == "COMPLETED"
+    assert result.final["status"] == "CONFLICT_NEED_CONFIRM"
+    assert {c["doc_id"] for c in result.final["citations"]} == {"D01", "D02"}
+    assert "工作日" in result.final["answer"] and "请确认" in result.final["answer"]
+
+
+def test_rephrase_table_is_external_data(tmp_path, monkeypatch):
+    """改写表外置 data/terms.json：换一张表（食堂→后勤 保障）即可改写新领域口语问法，
+    代码中没有"打卡→考勤"之类的硬编码词表。"""
+    docs = [{"doc_id": "D07", "title": "后勤保障制度", "version_date": "2025-04",
+             "keywords": ["后勤", "保障"], "excerpt": "食堂由行政部统一管理，菜单每周一在 OA 公布。"}]
+    terms = {"terms": [{"spoken": ["食堂", "菜单"], "formal_query": "后勤 保障"}]}
+    _swap_kb(tmp_path, monkeypatch, docs, terms)
+    result = _mock_run("公司食堂菜单在哪看？")
+    searches = [e for e in result.trace if e["action"] == "search_docs"]
+    assert len(searches) == 2
+    assert searches[0]["args"]["query"] == "公司食堂菜单在哪看"   # 原话首发
+    assert searches[0]["observation"]["results"] == []           # 首查 0 命中
+    assert searches[1]["args"]["query"] == "后勤 保障"            # 改写词来自外置表
+    assert searches[1]["observation"]["results"]
+    assert result.final["status"] == "ANSWERED"
+    assert result.final["citations"][0]["doc_id"] == "D07"
+
+
+def test_followup_locate_survives_question_rewording(tmp_path, monkeypatch):
+    """追问定位按"问题数值 vs 已读原文"比对，不匹配预设问句：换一种问法结果不变。"""
+    docs = [
+        {"doc_id": "D01", "title": "费用报销管理制度", "version_date": "2025-01",
+         "keywords": ["报销", "报销期限"], "excerpt": "报销期限：30 天内提交报销申请。"},
+        {"doc_id": "D02", "title": "费用报销补充规定", "version_date": "2025-06",
+         "keywords": ["报销", "报销期限"], "excerpt": "报销期限：15 个工作日内提交报销申请。"},
+    ]
+    _swap_kb(tmp_path, monkeypatch, docs)
+    task = ("[历史]\n用户：报销期限是多久\n助手：两份文件不一致：D01 写明报销期限 30 天，D02 写明报销期限 15 个工作日，"
+            "请确认适用制度。\n[当前问题] 那规定 15 个工作日的，到底是哪一个文件来着？")
+    import prompts
+    from agent import run_agent
+    from llm import MockLLM
+    import mock_policy
+    result = run_agent(task, MockLLM(mock_policy.decide), tools.build_tools(),
+                       prompts.SYSTEM_PROMPT, max_steps=8,
+                       finish_validator=tools.validate_citations, llm_mode="mock")
+    assert result.final["status"] == "ANSWERED"
+    assert result.final["citations"][0]["doc_id"] == "D02"       # 数值定位到 D02，与问法无关
+    assert "费用报销补充规定" in result.final["answer"]

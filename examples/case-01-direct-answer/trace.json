@@ -6,14 +6,14 @@
     [
       {
         "step": 1,
-        "thought": "[Mock规则] 尚无观察：按问题主题发起首次检索（问题含制度用语则直接用制度用语）",
+        "thought": "[Mock规则] 尚无观察：发起首次检索（无历史用问题原话；带历史从知识库关键词反查检索词）",
         "action": "search_docs",
         "args": {
-          "query": "年假"
+          "query": "入职满一年有多少天年假"
         },
         "observation": {
           "ok": true,
-          "query": "年假",
+          "query": "入职满一年有多少天年假",
           "results": [
             {
               "doc_id": "D03",

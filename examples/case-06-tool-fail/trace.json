@@ -6,10 +6,10 @@
     [
       {
         "step": 1,
-        "thought": "[Mock规则] 尚无观察：按问题主题发起首次检索（问题含制度用语则直接用制度用语）",
+        "thought": "[Mock规则] 尚无观察：发起首次检索（无历史用问题原话；带历史从知识库关键词反查检索词）",
         "action": "search_docs",
         "args": {
-          "query": "培训 学时"
+          "query": "内部培训学时在哪里查"
         },
         "observation": {
           "ok": false,
@@ -27,14 +27,14 @@
     [
       {
         "step": 1,
-        "thought": "[Mock规则] 尚无观察：按问题主题发起首次检索（问题含制度用语则直接用制度用语）",
+        "thought": "[Mock规则] 尚无观察：发起首次检索（无历史用问题原话；带历史从知识库关键词反查检索词）",
         "action": "search_docs",
         "args": {
-          "query": "差旅 住宿标准"
+          "query": "出差住宿标准是多少"
         },
         "observation": {
           "ok": true,
-          "query": "差旅 住宿标准",
+          "query": "出差住宿标准是多少",
           "results": [
             {
               "doc_id": "D04",

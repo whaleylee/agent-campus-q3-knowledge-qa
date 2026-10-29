@@ -1,0 +1,10 @@
+{
+  "comment": "口语→制度用语 改写表（护栏 2 用，外置数据）：问句含 spoken 任一词、且首查 0 命中时，改用 formal_query 再检索一次。加词条即扩展改写行为，无须改代码。",
+  "terms": [
+    { "spoken": ["打卡"], "formal_query": "考勤 系统" },
+    { "spoken": ["出差住宿", "住宿补贴", "住宿"], "formal_query": "差旅 住宿标准" },
+    { "spoken": ["休假"], "formal_query": "年假" },
+    { "spoken": ["报销"], "formal_query": "报销期限" },
+    { "spoken": ["培训"], "formal_query": "培训 学时" }
+  ]
+}

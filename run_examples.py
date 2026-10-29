@@ -24,7 +24,9 @@ def main():
     for path in sorted(cases_dir.glob("*.json")):
         case = json.loads(path.read_text(encoding="utf-8"))
         output, _ = cli.run_case(case, llm_mode="mock", trace_dir=examples_dir)
-        statuses = " / ".join(f"任务{i}:{entry['status']}" for i, entry in enumerate(output["tasks"], 1))
+        statuses = " / ".join(
+            f"任务{i}:{entry['status'] or entry['run_status']}"  # 未完成时无业务终态，展示运行状态
+            for i, entry in enumerate(output["tasks"], 1))
         rows.append((output["case_id"], statuses))
 
     print("=" * 76)

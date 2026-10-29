@@ -1,0 +1,29 @@
+{
+  "case_id": "case-07-max-steps",
+  "llm_mode": "mock",
+  "max_steps": 1,
+  "traces": [
+    [
+      {
+        "step": 1,
+        "thought": "[Mock规则] 尚无观察：发起首次检索（无历史用问题原话；带历史从知识库关键词反查检索词）",
+        "action": "search_docs",
+        "args": {
+          "query": "入职满一年有多少天年假"
+        },
+        "observation": {
+          "ok": true,
+          "query": "入职满一年有多少天年假",
+          "results": [
+            {
+              "doc_id": "D03",
+              "title": "员工年假管理制度",
+              "version_date": "2024-11",
+              "score": 2
+            }
+          ]
+        }
+      }
+    ]
+  ]
+}

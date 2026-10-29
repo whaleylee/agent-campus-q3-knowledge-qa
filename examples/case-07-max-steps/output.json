@@ -1,0 +1,15 @@
+{
+  "case_id": "case-07-max-steps",
+  "acceptance": "补充：执行步数上限",
+  "llm_mode": "mock",
+  "max_steps": 1,
+  "tasks": [
+    {
+      "task": "入职满一年有多少天年假？",
+      "run_status": "INCOMPLETE_MAX_STEPS",
+      "status": null,
+      "steps_used": 1,
+      "final": null
+    }
+  ]
+}

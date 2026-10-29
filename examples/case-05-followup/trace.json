@@ -6,20 +6,20 @@
     [
       {
         "step": 1,
-        "thought": "[Mock规则] 尚无观察：按问题主题发起首次检索（问题含制度用语则直接用制度用语）",
+        "thought": "[Mock规则] 尚无观察：发起首次检索（无历史用问题原话；带历史从知识库关键词反查检索词）",
         "action": "search_docs",
         "args": {
-          "query": "报销期限"
+          "query": "费用报销 报销期限"
         },
         "observation": {
           "ok": true,
-          "query": "报销期限",
+          "query": "费用报销 报销期限",
           "results": [
             {
               "doc_id": "D01",
               "title": "费用报销管理制度",
               "version_date": "2025-01",
-              "score": 6
+              "score": 10
             },
             {
               "doc_id": "D02",
@@ -62,7 +62,7 @@
       },
       {
         "step": 4,
-        "thought": "[Mock规则] 追问指代定位：历史冲突回复中写明 15 天的文件 → 引用其原文作答",
+        "thought": "[Mock规则] 追问指代解析：问题中的数值 15 与已读原文逐字比对，唯一命中 D02 → 引用其原文作答",
         "action": "finish",
         "args": {},
         "finish": true
