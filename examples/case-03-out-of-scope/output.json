@@ -1,0 +1,20 @@
+{
+  "case_id": "case-03-out-of-scope",
+  "acceptance": "A3",
+  "llm_mode": "mock",
+  "max_steps": 8,
+  "tasks": [
+    {
+      "task": "公司楼下食堂本周菜单是什么？",
+      "run_status": "COMPLETED",
+      "status": "OUT_OF_SCOPE",
+      "steps_used": 3,
+      "final": {
+        "answer": "",
+        "citations": [],
+        "info_gap": "知识库中未找到与该问题相关的文档（已尝试检索：“公司楼下食堂本周菜单是什么”、“公司楼下食堂本周菜单”），属资料外问题，无法回答。",
+        "status": "OUT_OF_SCOPE"
+      }
+    }
+  ]
+}

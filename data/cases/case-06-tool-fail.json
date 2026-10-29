@@ -1,0 +1,10 @@
+{
+  "case_id": "case-06-tool-fail",
+  "acceptance": "A6",
+  "description": "工具失败（两个任务覆盖两种注入）：任务 1 的检索 query 含“培训”触发检索服务失败；任务 2 命中 D04 后读取触发存储失败。均应明确 TOOL_FAILED，不编造答案",
+  "reset_state": false,
+  "tasks": [
+    "内部培训学时在哪里查？",
+    "出差住宿标准是多少？"
+  ]
+}

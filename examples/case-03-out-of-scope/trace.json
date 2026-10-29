@@ -1,0 +1,44 @@
+{
+  "case_id": "case-03-out-of-scope",
+  "llm_mode": "mock",
+  "max_steps": 8,
+  "traces": [
+    [
+      {
+        "step": 1,
+        "thought": "[Mock规则] 尚无观察：按问题主题发起首次检索（问题含制度用语则直接用制度用语）",
+        "action": "search_docs",
+        "args": {
+          "query": "公司楼下食堂本周菜单是什么"
+        },
+        "observation": {
+          "ok": true,
+          "query": "公司楼下食堂本周菜单是什么",
+          "results": [],
+          "message": "0 命中：当前问法未匹配任何文档关键词，可改写为制度用语（如 考勤/报销期限）后重试"
+        }
+      },
+      {
+        "step": 2,
+        "thought": "[Mock规则] 首次检索 0 命中（口语问法搜不中）→ 改写为制度用语再检索一次",
+        "action": "search_docs",
+        "args": {
+          "query": "公司楼下食堂本周菜单"
+        },
+        "observation": {
+          "ok": true,
+          "query": "公司楼下食堂本周菜单",
+          "results": [],
+          "message": "0 命中：当前问法未匹配任何文档关键词，可改写为制度用语（如 考勤/报销期限）后重试"
+        }
+      },
+      {
+        "step": 3,
+        "thought": "[Mock规则] 检索（含改写）仍 0 命中 → 知识库无此资料，如实报 OUT_OF_SCOPE，不编造",
+        "action": "finish",
+        "args": {},
+        "finish": true
+      }
+    ]
+  ]
+}

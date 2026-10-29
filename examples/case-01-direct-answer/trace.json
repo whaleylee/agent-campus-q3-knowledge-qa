@@ -1,0 +1,51 @@
+{
+  "case_id": "case-01-direct-answer",
+  "llm_mode": "mock",
+  "max_steps": 8,
+  "traces": [
+    [
+      {
+        "step": 1,
+        "thought": "[Mock规则] 尚无观察：按问题主题发起首次检索（问题含制度用语则直接用制度用语）",
+        "action": "search_docs",
+        "args": {
+          "query": "年假"
+        },
+        "observation": {
+          "ok": true,
+          "query": "年假",
+          "results": [
+            {
+              "doc_id": "D03",
+              "title": "员工年假管理制度",
+              "version_date": "2024-11",
+              "score": 2
+            }
+          ]
+        }
+      },
+      {
+        "step": 2,
+        "thought": "[Mock规则] 检索命中 1 篇 → 逐篇 read_doc 核对原文（先读 D03）",
+        "action": "read_doc",
+        "args": {
+          "doc_id": "D03"
+        },
+        "observation": {
+          "ok": true,
+          "doc_id": "D03",
+          "title": "员工年假管理制度",
+          "version_date": "2024-11",
+          "excerpt": "第四条 年假天数：员工入职满 1 年可休 5 天年假，满 5 年可休 10 天年假，年假当年有效，经 OA 审批后安排。"
+        }
+      },
+      {
+        "step": 3,
+        "thought": "[Mock规则] 唯一命中且已读原文、无冲突 → 依据该文档回答并附原文引用",
+        "action": "finish",
+        "args": {},
+        "finish": true
+      }
+    ]
+  ]
+}

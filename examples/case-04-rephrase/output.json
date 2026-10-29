@@ -1,0 +1,26 @@
+{
+  "case_id": "case-04-rephrase",
+  "acceptance": "A4",
+  "llm_mode": "mock",
+  "max_steps": 8,
+  "tasks": [
+    {
+      "task": "在哪儿打卡？",
+      "run_status": "COMPLETED",
+      "status": "ANSWERED",
+      "steps_used": 4,
+      "final": {
+        "answer": "根据《考勤管理制度》（D05，版本 2025-02）：第七条 考勤方式：员工日常考勤通过 OA 系统打卡记录，因公外出需提前报备；忘打卡应于当日在 OA 提交补卡申请，每月补卡不超过 3 次。",
+        "citations": [
+          {
+            "doc_id": "D05",
+            "version": "2025-02",
+            "excerpt": "第七条 考勤方式：员工日常考勤通过 OA 系统打卡记录，因公外出需提前报备；忘打卡应于当日在 OA 提交补卡申请，每月补卡不超过 3 次。"
+          }
+        ],
+        "info_gap": null,
+        "status": "ANSWERED"
+      }
+    }
+  ]
+}

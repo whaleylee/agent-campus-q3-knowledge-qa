@@ -1,0 +1,26 @@
+{
+  "case_id": "case-01-direct-answer",
+  "acceptance": "A1",
+  "llm_mode": "mock",
+  "max_steps": 8,
+  "tasks": [
+    {
+      "task": "入职满一年有多少天年假？",
+      "run_status": "COMPLETED",
+      "status": "ANSWERED",
+      "steps_used": 3,
+      "final": {
+        "answer": "根据《员工年假管理制度》（D03，版本 2024-11）：第四条 年假天数：员工入职满 1 年可休 5 天年假，满 5 年可休 10 天年假，年假当年有效，经 OA 审批后安排",
+        "citations": [
+          {
+            "doc_id": "D03",
+            "version": "2024-11",
+            "excerpt": "第四条 年假天数：员工入职满 1 年可休 5 天年假，满 5 年可休 10 天年假，年假当年有效，经 OA 审批后安排"
+          }
+        ],
+        "info_gap": null,
+        "status": "ANSWERED"
+      }
+    }
+  ]
+}

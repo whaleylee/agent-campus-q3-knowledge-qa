@@ -1,0 +1,9 @@
+{
+  "case_id": "case-02-conflict",
+  "acceptance": "A2",
+  "description": "文档冲突：D01 报销期限 30 天 vs D02 报销期限 15 天，两者均无适用范围与优先级，应列冲突 + 双引用 + 请求确认，不得擅自择一作答",
+  "reset_state": false,
+  "tasks": [
+    "报销期限是多久？"
+  ]
+}

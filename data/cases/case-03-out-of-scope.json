@@ -1,0 +1,9 @@
+{
+  "case_id": "case-03-out-of-scope",
+  "acceptance": "A3",
+  "description": "资料外问题：知识库完全没有的问题（食堂菜单），应明确资料缺口、不编造答案、不产生引用",
+  "reset_state": false,
+  "tasks": [
+    "公司楼下食堂本周菜单是什么？"
+  ]
+}

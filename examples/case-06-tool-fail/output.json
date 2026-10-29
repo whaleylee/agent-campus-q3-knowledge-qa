@@ -1,0 +1,32 @@
+{
+  "case_id": "case-06-tool-fail",
+  "acceptance": "A6",
+  "llm_mode": "mock",
+  "max_steps": 8,
+  "tasks": [
+    {
+      "task": "内部培训学时在哪里查？",
+      "run_status": "COMPLETED",
+      "status": "TOOL_FAILED",
+      "steps_used": 2,
+      "final": {
+        "answer": "",
+        "citations": [],
+        "info_gap": "工具调用失败，已中止：知识库检索失败（故障注入）：query 含“培训”，检索服务暂时不可用，请稍后重试",
+        "status": "TOOL_FAILED"
+      }
+    },
+    {
+      "task": "出差住宿标准是多少？",
+      "run_status": "COMPLETED",
+      "status": "TOOL_FAILED",
+      "steps_used": 3,
+      "final": {
+        "answer": "",
+        "citations": [],
+        "info_gap": "工具调用失败，已中止：读取文档失败（故障注入）：D04 存储服务暂时不可用",
+        "status": "TOOL_FAILED"
+      }
+    }
+  ]
+}

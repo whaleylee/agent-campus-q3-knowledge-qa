@@ -1,0 +1,9 @@
+{
+  "case_id": "case-04-rephrase",
+  "acceptance": "A4",
+  "description": "检索改进：口语问法“在哪儿打卡”首查 0 命中（检索对措辞敏感），应改写为制度用语“考勤 系统”后命中 D05 并引用原文回答",
+  "reset_state": false,
+  "tasks": [
+    "在哪儿打卡？"
+  ]
+}

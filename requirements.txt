@@ -1,0 +1,3 @@
+# Placeholder: stack not chosen yet (candidates: zero-dependency native loop / LangGraph / AgentScope).
+# Pin exact versions here after selection, e.g.:
+# langgraph==0.2.x

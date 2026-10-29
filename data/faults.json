@@ -1,0 +1,5 @@
+{
+  "comment": "故障注入配置（A6 工具失败）：query 含 search_fail_query_substrings 任一子串时检索直接失败；read_fail_doc_ids 中的 doc_id 读取失败。",
+  "search_fail_query_substrings": ["培训"],
+  "read_fail_doc_ids": ["D04"]
+}

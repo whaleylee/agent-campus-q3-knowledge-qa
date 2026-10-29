@@ -1,0 +1,9 @@
+{
+  "case_id": "case-01-direct-answer",
+  "acceptance": "A1",
+  "description": "明确答案：问年假天数，唯一命中 D03 且无冲突，应依据原文回答并引用 doc_id + 原文片段",
+  "reset_state": false,
+  "tasks": [
+    "入职满一年有多少天年假？"
+  ]
+}
